@@ -7,7 +7,6 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* 主题色 - 贴合主页的活泼风格 */
   --bg:#0d1117;
   --bg2:rgba(18,24,36,0.82);
   --bg3:rgba(28,36,54,0.75);
@@ -16,7 +15,6 @@
   --border:rgba(255,255,255,0.10);
   --border2:rgba(255,255,255,0.18);
   --text:#f0f2ff;--text2:#a8b4d8;--text3:#5a6a9a;
-  /* accent: 主页那种青绿渐变 */
   --accent:#3ecf8e;--accent2:#5de8a8;
   --accent-blue:#5b8ef5;
   --green:#3ecf8e;--red:#f05f7a;--orange:#f5a623;
@@ -27,14 +25,11 @@ body{
   color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
   font-size:14px;
-  /* 模拟主页那种渐变暗背景 */
   background:linear-gradient(135deg,#0d1117 0%,#111827 50%,#0d1a2e 100%);
   min-height:100vh;
 }
 html,body{height:100%;overflow:hidden}
 #app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
-
-/* ── 顶栏：毛玻璃 ── */
 #topbar{
   display:flex;align-items:center;gap:12px;
   padding:0 20px;height:54px;
@@ -49,10 +44,7 @@ html,body{height:100%;overflow:hidden}
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-
 #body{display:flex;flex:1;overflow:hidden}
-
-/* ── 侧边栏：毛玻璃 ── */
 #sidebar{
   width:200px;flex-shrink:0;
   background:rgba(13,17,23,0.65);
@@ -62,25 +54,17 @@ html,body{height:100%;overflow:hidden}
 }
 #sidebar::-webkit-scrollbar{width:4px}
 #sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-
 #main{flex:1;overflow-y:scroll;padding:20px;padding-bottom:calc(20px + env(safe-area-inset-bottom, 0px))}
 #main::-webkit-scrollbar{width:5px}
 #main::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:4px}
-
-/* ── 按钮 ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .18s}
-.btn-primary{
-  background:linear-gradient(135deg,var(--accent),#29b87a);
-  color:#0a1f14;font-weight:600;
-  box-shadow:0 2px 12px rgba(62,207,142,0.3);
-}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#29b87a);color:#0a1f14;font-weight:600;box-shadow:0 2px 12px rgba(62,207,142,0.3);}
 .btn-primary:hover{background:linear-gradient(135deg,var(--accent2),var(--accent));box-shadow:0 4px 18px rgba(62,207,142,0.45);transform:translateY(-1px)}
 .btn-ghost{background:var(--glass);color:var(--text2);border:1px solid var(--border)}.btn-ghost:hover{background:var(--glass-hover);color:var(--text);border-color:var(--border2)}
 .btn-danger{background:transparent;color:var(--red);border:1px solid var(--border)}.btn-danger:hover{background:rgba(240,95,122,.12);border-color:rgba(240,95,122,.4)}
 .btn-sm{padding:4px 10px;font-size:12px}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .btn:active:not(:disabled){transform:scale(.97)}
-
 input[type=text],input[type=url],input[type=password],input[type=search]{
   width:100%;padding:7px 10px;
   background:rgba(255,255,255,0.06);
@@ -89,8 +73,6 @@ input[type=text],input[type=url],input[type=password],input[type=search]{
   transition:border-color .15s,background .15s;
 }
 input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
-
-/* ── 登录 ── */
 #login-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:40px 20px}
 .login-card{
   background:rgba(18,26,42,0.85);
@@ -109,99 +91,47 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .field label{display:block;font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:500;letter-spacing:0.02em}
 .tip{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5}
 .tip a{color:var(--accent);text-decoration:none;opacity:.85}.tip a:hover{opacity:1}
-
-/* ── 侧边栏分类标签 ── */
-.sidebar-header{
-  padding:14px 14px 8px;font-size:10px;font-weight:700;
-  color:var(--text3);text-transform:uppercase;letter-spacing:.1em;
-}
-.sec-item{
-  display:flex;align-items:center;gap:7px;
-  padding:7px 12px;
-  cursor:pointer;
-  border-radius:10px;
-  margin:1px 6px;
-  border:1px solid transparent;
-  transition:all .15s;
-}
+.sidebar-header{padding:14px 14px 8px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;}
+.sec-item{display:flex;align-items:center;gap:7px;padding:7px 12px;cursor:pointer;border-radius:10px;margin:1px 6px;border:1px solid transparent;transition:all .15s;}
 .sec-item:hover{background:var(--glass);border-color:var(--border)}
-.sec-item.active{
-  background:rgba(62,207,142,0.12);
-  border-color:rgba(62,207,142,0.3);
-}
+.sec-item.active{background:rgba(62,207,142,0.12);border-color:rgba(62,207,142,0.3);}
 .sec-item .sec-name{flex:1;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sec-item.active .sec-name{color:var(--accent);font-weight:600}
-.sec-item .sec-count{
-  font-size:10px;color:var(--text3);
-  background:rgba(255,255,255,0.08);
-  padding:1px 7px;border-radius:20px;
-  flex-shrink:0;
-}
+.sec-item .sec-count{font-size:10px;color:var(--text3);background:rgba(255,255,255,0.08);padding:1px 7px;border-radius:20px;flex-shrink:0;}
 .sec-item.active .sec-count{background:rgba(62,207,142,0.2);color:var(--accent)}
 .sec-item .lock-badge{font-size:11px;opacity:.7;flex-shrink:0}
 .drag-handle{color:var(--text3);font-size:12px;cursor:grab;flex-shrink:0;user-select:none;opacity:.5}
 .drag-handle:active{cursor:grabbing}
 .sidebar-footer{padding:12px 10px;border-top:1px solid var(--border);margin-top:auto}
-
-/* ── 分区头部 ── */
 .sec-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
 .sec-header .cnt{font-size:12px;color:var(--text3);background:rgba(255,255,255,0.06);padding:2px 10px;border-radius:20px}
 .sec-header-actions{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-
-/* ── 表格 ── */
 .links-table{width:100%;border-collapse:collapse;min-width:820px}
-.links-table th{
-  padding:8px 8px;text-align:left;font-size:10px;font-weight:700;
-  color:var(--text3);text-transform:uppercase;letter-spacing:.08em;
-  border-bottom:1px solid var(--border);white-space:nowrap;
-}
+.links-table th{padding:8px 8px;text-align:left;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);white-space:nowrap;}
 .links-table td{padding:5px 5px;vertical-align:middle;border-bottom:1px solid rgba(255,255,255,0.05)}
 .links-table tr:last-child td{border-bottom:none}
 .links-table tr:hover td{background:rgba(255,255,255,.025)}
 .links-table input{padding:5px 7px;font-size:12px}
-
-/* ── 图标格 ── */
-.icon-cell{
-  width:32px;height:32px;border-radius:8px;
-  border:1.5px solid var(--border);overflow:hidden;cursor:pointer;
-  background:rgba(255,255,255,0.06);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto;position:relative;transition:all .15s;flex-shrink:0;
-}
+.icon-cell{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);overflow:hidden;cursor:pointer;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;margin:0 auto;position:relative;transition:all .15s;flex-shrink:0;}
 .icon-cell:hover{border-color:var(--accent);box-shadow:0 0 0 2px rgba(62,207,142,0.2)}
 .icon-cell img{width:100%;height:100%;object-fit:contain}
 .icon-cell .badge-auto{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;background:var(--bg);border-radius:50%;border:1px solid var(--border);font-size:7px;display:flex;align-items:center;justify-content:center;line-height:1}
 .icon-cell .badge-custom{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;background:var(--accent);border-radius:50%;border:1px solid var(--bg)}
-
-/* ── 图标选择弹窗 ── */
-.ipanel{
-  position:fixed;z-index:1000;
-  background:rgba(15,20,35,0.92);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border:1px solid var(--border2);border-radius:var(--radius);
-  box-shadow:0 20px 60px rgba(0,0,0,0.7);
-  width:380px;overflow-x:hidden;overflow-y:hidden;
-}
+.ipanel{position:fixed;z-index:1000;background:rgba(15,20,35,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--border2);border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,0.7);width:380px;overflow-x:hidden;overflow-y:hidden;}
 .ipanel-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.2)}
 .ipanel-tab{flex:1;padding:9px 0;text-align:center;font-size:12px;font-weight:500;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s}
 .ipanel-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 .ipanel-tab:hover:not(.active){color:var(--text2)}
 .ipanel-body{padding:12px}
-
-/* tab: 自动获取 */
 .auto-preview{display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 0}
 .auto-preview .big-icon{width:56px;height:56px;border-radius:12px;border:1px solid var(--border);background:var(--glass);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .auto-preview .big-icon img{width:100%;height:100%;object-fit:contain}
 .auto-preview p{font-size:12px;color:var(--text2);text-align:center;line-height:1.5}
 .auto-preview .domain{font-size:11px;color:var(--text3)}
-
-/* tab: 上传 */
 .upload-mini{border:2px dashed var(--border2);border-radius:var(--radius-sm);padding:20px 16px;text-align:center;cursor:pointer;transition:all .15s}
 .upload-mini:hover,.upload-mini.drag{border-color:var(--accent);background:rgba(62,207,142,.05)}
 .upload-mini p{color:var(--text2);font-size:12px;margin-top:6px}
 .upload-mini small{color:var(--text3);font-size:11px}
-
-/* tab: 选择已上传 */
 .icon-search-wrap{position:relative;margin-bottom:10px}
 .icon-search-wrap input{padding-left:28px;font-size:12px}
 .icon-search-wrap::before{content:'🔍';position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:11px;pointer-events:none}
@@ -213,36 +143,21 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .icon-opt img{width:36px;height:36px;object-fit:contain;border-radius:4px}
 .icon-opt span{font-size:11px;color:var(--text3);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
 .ipanel-footer{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;background:rgba(0,0,0,0.15)}
-
-/* ── 图标管理页 ── */
 #icons-panel{display:none}
 .icons-mgr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:12px;margin-top:16px}
-.icon-card{
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  padding:10px 8px;
-  background:var(--glass);
-  border:1px solid var(--border);border-radius:var(--radius-sm);
-  position:relative;transition:all .15s;
-}
+.icon-card{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 8px;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);position:relative;transition:all .15s;}
 .icon-card:hover{background:var(--glass-hover);border-color:var(--border2)}
 .icon-card img{width:38px;height:38px;object-fit:contain;border-radius:6px}
 .icon-card .iname{font-size:10px;color:var(--text2);word-break:break-all;text-align:center;line-height:1.3}
 .icon-card .del-icon{position:absolute;top:4px;right:4px;width:18px;height:18px;background:var(--red);border-radius:50%;border:none;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s}
 .icon-card:hover .del-icon{opacity:1}
-.upload-zone{
-  border:2px dashed var(--border2);border-radius:var(--radius);
-  padding:28px 20px;text-align:center;cursor:pointer;transition:all .15s;
-  background:var(--glass);
-}
+.upload-zone{border:2px dashed var(--border2);border-radius:var(--radius);padding:28px 20px;text-align:center;cursor:pointer;transition:all .15s;background:var(--glass);}
 .upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:rgba(62,207,142,.05)}
 .upload-zone p{color:var(--text2);font-size:13px;margin-top:8px}
 .upload-zone small{color:var(--text3);font-size:11px}
-
-/* ── Toast ── */
 #toast{position:fixed;bottom:24px;right:24px;padding:10px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;z-index:9999;display:none;backdrop-filter:blur(10px)}
 .toast-ok{background:rgba(62,207,142,0.15);color:var(--green);border:1px solid rgba(62,207,142,.35)}
 .toast-err{background:rgba(240,95,122,0.15);color:var(--red);border:1px solid rgba(240,95,122,.35)}
-
 .progress{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:6px}
 .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-blue));transition:width .3s}
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.1);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
@@ -250,24 +165,12 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .empty{text-align:center;padding:40px;color:var(--text3);font-size:13px}
 .drag-row-over{outline:2px solid var(--accent);outline-offset:-1px;border-radius:4px}
 .sec-drag-over{background:rgba(62,207,142,.08)!important;border-color:rgba(62,207,142,.3)!important}
-
-
-/* 眼睛切换 */
 .pwd-wrap{position:relative}
 .pwd-wrap input{padding-right:36px}
 .eye-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);padding:2px;display:flex;align-items:center;font-size:15px;line-height:1}
 .eye-btn:hover{color:var(--text2)}
-
-/* ── 分区名输入 ── */
-.sec-title-input{
-  max-width:220px;font-size:16px;font-weight:700;
-  background:transparent;border:1px solid transparent;
-  padding:4px 10px;border-radius:var(--radius-sm);
-  color:var(--text);letter-spacing:0.01em;
-}
+.sec-title-input{max-width:220px;font-size:16px;font-weight:700;background:transparent;border:1px solid transparent;padding:4px 10px;border-radius:var(--radius-sm);color:var(--text);letter-spacing:0.01em;}
 .sec-title-input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06);outline:none}
-
-/* ── 移动端 ── */
 @media (max-width:768px){
   #topbar{padding:0 12px;gap:8px}
   #topbar h1{font-size:13px}
@@ -277,12 +180,7 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
   .topbar-right .btn-ghost:not(#mob-menu-btn):not([onclick*="showPanel"]){display:none}
   #save-btn{padding:4px 8px;font-size:11px}
   #mob-menu-btn{display:flex!important}
-  #sidebar{
-    position:fixed;left:0;top:0;bottom:0;z-index:500;
-    width:220px;transform:translateX(-100%);
-    transition:transform .25s ease;
-    box-shadow:4px 0 30px rgba(0,0,0,.6);
-  }
+  #sidebar{position:fixed;left:0;top:0;bottom:0;z-index:500;width:220px;transform:translateX(-100%);transition:transform .25s ease;box-shadow:4px 0 30px rgba(0,0,0,.6);}
   #sidebar.mob-open{transform:translateX(0)}
   #mob-overlay{display:none;position:fixed;inset:0;z-index:499;background:rgba(0,0,0,.5)}
   #mob-overlay.show{display:block}
@@ -303,7 +201,6 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 <body>
 <div id="app">
 
-<!-- 登录 -->
 <div id="login-panel">
   <div class="login-card">
     <h2>🧭 导航编辑器</h2>
@@ -339,7 +236,6 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
   </div>
 </div>
 
-<!-- 主界面 -->
 <div id="editor-ui" style="display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden">
   <div id="topbar">
     <button id="mob-menu-btn" class="btn btn-ghost btn-sm" onclick="toggleMobSidebar()" style="padding:4px 8px;font-size:16px">☰</button>
@@ -397,7 +293,6 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
   </div>
 </div>
 
-<!-- 图标选择弹窗 -->
 <div id="ipanel" class="ipanel" style="display:none">
   <div class="ipanel-tabs">
     <div class="ipanel-tab active" onclick="switchITab('auto')">🌐 自动获取</div>
@@ -429,8 +324,6 @@ let pickerTarget=null;
 let pickerTab='auto';
 let pickerPendingIcon='';
 
-// ── favicon：动态读取 main.js 的配置，与主页保持同步 ──────────
-// 默认值（main.js 未加载时的回退）
 let _faviconProvider = 'duckduckgo';
 let _faviconProxy    = '';
 
@@ -444,14 +337,11 @@ function buildFaviconUrl(domain) {
   if (!domain) return DEFAULT_ICON;
   if (_faviconProvider === 'google')
     return _withProxy(`https://www.google.com/s2/favicons?sz=64&domain=${domain}`);
-  // duckduckgo（默认）
   return _withProxy(`https://icons.duckduckgo.com/ip3/${domain}.ico`);
 }
 
-// 尝试从同目录的 main.js 读取配置（异步，不阻塞页面）
 (async function syncFaviconConfig() {
   try {
-    // admin.html 在仓库根目录下的 admin/ 或根目录，main.js 相对路径
     const candidates = ['./main.js', '../main.js'];
     for (const path of candidates) {
       try {
@@ -626,9 +516,11 @@ async function loadLinks(){
     renderSidebar();renderSection(currentSec);
   }catch(e){toast('加载 links.json 失败：'+e.message,'err',6000);}
 }
+
+// ── FIX 4: 加 _nc 参数防止 GitHub API 返回缓存的旧文件列表 ──
 async function loadIcons(){
   try{
-    const files=await gh(`contents/${ICONS_DIR}?ref=${BRANCH}`).catch(()=>[]);
+    const files=await gh(`contents/${ICONS_DIR}?ref=${BRANCH}&_nc=${Date.now()}`).catch(()=>[]);
     iconsData=Array.isArray(files)
       ?files.filter(f=>/\.(png|jpg|jpeg|svg|ico|webp|gif)$/i.test(f.name))
              .map(f=>({name:f.name,sha:f.sha,url:f.download_url}))
@@ -702,13 +594,14 @@ function renderSection(si){
     </table></div>`;
 }
 
-
+// ── FIX 3: 自定义图标 src 加 sha 后缀破缓存 ──
 function iconCellHtml(si,ii,it){
   const domain=getDomain(it.url);
   if(it.icon){
     const name=it.icon.replace(/^.*\/([^/]+)$/,'$1');
     const found=iconsData.find(i=>i.name===name);
-    const src=SITE_ICON_BASE+name;
+    const _ts=found?found.sha.slice(-6):Date.now();
+    const src=SITE_ICON_BASE+name+'?t='+_ts;
     const fallback=found?found.url:'';
     return `<div class="icon-cell" onclick="openIPPanel(${si},${ii},this)" title="自定义：${esc(name)}">
       <img src="${src}" alt="" onerror="this.src='${fallback}'">
@@ -864,7 +757,6 @@ function renderPickTab(filter=''){
     ?iconsData.filter(ic=>ic.name.toLowerCase().includes(filter.toLowerCase()))
     :iconsData;
 
-  // 如果搜索框已存在就只更新网格，避免重建导致焦点丢失
   const existing=body.querySelector('.icon-search-wrap');
   if(existing){
     renderIconGrid(body,filtered,filter);
@@ -880,6 +772,7 @@ function renderPickTab(filter=''){
   renderIconGrid(body,filtered,filter);
 }
 
+// ── FIX 2: 弹窗 pick tab 图标 src 加 sha 破缓存 ──
 function renderIconGrid(body,filtered,filter){
   const container=body.querySelector('#icon-grid-container')||body.querySelector('.icon-grid-scroll')?.parentNode;
   const html=!iconsData.length
@@ -890,7 +783,7 @@ function renderIconGrid(body,filtered,filter){
         ${filtered.map(ic=>{
           const val=ICONS_PREFIX+ic.name;
           return`<div class="icon-opt ${pickerPendingIcon===val?'sel':''}" onclick="selectPendingIcon('${val}')">
-            <img src="${SITE_ICON_BASE+ic.name}" alt="${ic.name}" onerror="this.src='${ic.url}'">
+            <img src="${SITE_ICON_BASE+ic.name}?t=${ic.sha.slice(-6)}" alt="${ic.name}" onerror="this.src='${ic.url}'">
             <span>${ic.name.replace(/\.[^.]+$/,'')}</span>
           </div>`;
         }).join('')}
@@ -965,14 +858,15 @@ async function deleteIcon(name, sha){
     toast('删除失败：' + e.message, 'err');
   }
 }
-  
+
+// ── FIX 1: 图标管理页 img src 加 sha 破缓存 ──
 function renderIconsGrid(){
   const g=document.getElementById('icons-grid');
   if(!g)return;
   if(!iconsData.length){g.innerHTML='<div class="empty">还没有图标，上传后可在链接里选用</div>';return;}
   g.innerHTML=iconsData.map(ic=>`
     <div class="icon-card">
-      <img src="${SITE_ICON_BASE+ic.name}" alt="${ic.name}" onerror="this.src='${ic.url}'">
+      <img src="${SITE_ICON_BASE+ic.name}?t=${ic.sha.slice(-6)}" alt="${ic.name}" onerror="this.src='${ic.url}'">
       <div class="iname">${ic.name}</div>
       <button class="del-icon" onclick="deleteIcon('${ic.name}','${ic.sha}')">✕</button>
     </div>`).join('');
@@ -1000,7 +894,6 @@ async function uploadIconFiles(files){
       await putBinary(`${ICONS_DIR}/${file.name}`,bytes,sha,`upload icon: ${file.name}`);
       done++;
       bar.style.width=((done+fail)/files.length*100)+'%';
-      // 每上传成功一个就立刻刷新，让用户看到实时进度
       await loadIcons();
       renderIconsGrid();
     }catch(e){
