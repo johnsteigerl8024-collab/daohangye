@@ -110,8 +110,7 @@
         "title": "通义千问",
         "url": "https://tongyi.aliyun.com/",
         "desc": "阿里AI大模型",
-        "data-desc": "阿里巴巴旗下通义千问 AI 大模型，Qwen，支持长文档与多模态",
-        "icon": "icons/logos/通义千问.svg"
+        "data-desc": "阿里巴巴旗下通义千问 AI 大模型，Qwen，支持长文档与多模态"
       },
       {
         "title": "豆包",
