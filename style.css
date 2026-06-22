@@ -82,7 +82,7 @@ body {
 
 h1 {
   text-align: center;
-  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
   font-weight: 900;
   letter-spacing: 0.05em;
   white-space: nowrap;
