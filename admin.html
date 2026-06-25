@@ -100,7 +100,7 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .sec-item .sec-count{font-size:10px;color:var(--text3);background:rgba(255,255,255,0.08);padding:1px 7px;border-radius:20px;flex-shrink:0;}
 .sec-item.active .sec-count{background:rgba(62,207,142,0.2);color:var(--accent)}
 .sec-item .lock-badge{font-size:11px;opacity:.7;flex-shrink:0}
-.drag-handle{color:var(--text3);font-size:12px;cursor:grab;flex-shrink:0;user-select:none;opacity:.5}
+.drag-handle{color:var(--text3);font-size:12px;cursor:grab;flex-shrink:0;user-select:none;opacity:.5;touch-action:none;}
 .drag-handle:active{cursor:grabbing}
 .sidebar-footer{padding:12px 10px;border-top:1px solid var(--border);margin-top:auto}
 .sec-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
@@ -164,8 +164,20 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.1);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:40px;color:var(--text3);font-size:13px}
-.drag-row-over{outline:2px solid var(--accent);outline-offset:-1px;border-radius:4px}
+
+/* ── 插入线 ── */
+.drop-line{
+  display:none;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-blue));
+  border-radius:2px;box-shadow:0 0 6px rgba(62,207,142,0.6);
+  pointer-events:none;position:relative;z-index:10;
+}
+.drop-line.show{display:table-row}
+.drop-line td{padding:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-blue));border-radius:2px;box-shadow:0 0 6px rgba(62,207,142,0.6);}
+
 .sec-drag-over{background:rgba(62,207,142,.08)!important;border-color:rgba(62,207,142,.3)!important}
+.sec-hover-enter{background:rgba(62,207,142,.15)!important;border-color:rgba(62,207,142,.5)!important;box-shadow:0 0 0 2px rgba(62,207,142,.2);}
+
 .pwd-wrap{position:relative}
 .pwd-wrap input{padding-right:36px}
 .eye-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);padding:2px;display:flex;align-items:center;font-size:15px;line-height:1}
@@ -319,7 +331,12 @@ const SITE_ICON_BASE = location.origin + _basePath + '/icons/logos/';
 let TOKEN='',REPO='',BRANCH='main';
 let linksData=[],iconsData=[],linksSha='';
 let currentSec=0,isDirty=false;
-let dragRowSrc=null,dragSecSrc=null;
+
+// ── 拖动状态 ──
+let dragRowSrc=null;      // {si, ii} 行拖动来源
+let dragSecSrc=null;      // 分类拖动来源索引
+let _crossSecTarget=null; // 跨分类拖动目标分类索引
+let _secHoverTimer=null;  // 悬停计时器
 
 let pickerTarget=null;
 let pickerTab='auto';
@@ -518,7 +535,6 @@ async function loadLinks(){
   }catch(e){toast('加载 links.json 失败：'+e.message,'err',6000);}
 }
 
-// ── FIX 4: 加 _nc 参数防止 GitHub API 返回缓存的旧文件列表 ──
 async function loadIcons(){
   try{
     const files=await gh(`contents/${ICONS_DIR}?ref=${BRANCH}&_nc=${Date.now()}`).catch(()=>[]);
@@ -537,29 +553,73 @@ function showPanel(p){
   if(p==='icons')renderIconsGrid();
 }
 
+// ════════════════════════════════════════════
+//  侧边栏渲染 & 分类拖动（侧边栏内部排序）
+// ════════════════════════════════════════════
 function renderSidebar(){
   document.getElementById('sec-list').innerHTML=linksData.map((sec,si)=>`
-    <div class="sec-item ${si===currentSec?'active':''}" draggable="true"
+    <div class="sec-item ${si===currentSec?'active':''}"
+      data-si="${si}"
       onclick="selectSection(${si})"
-      ondragstart="dragSecSrc=${si};event.dataTransfer.effectAllowed='move';this.style.opacity='.4'"
-      ondragover="event.preventDefault();this.classList.add('sec-drag-over')"
-      ondragleave="this.classList.remove('sec-drag-over')"
-      ondrop="dropSec(event,${si})"
-      ondragend="this.style.opacity=''">
-      <span class="drag-handle">⠿</span>
+      ondragover="onSecItemDragOver(event,${si})"
+      ondragleave="onSecItemDragLeave(event,${si})"
+      ondrop="onSecItemDrop(event,${si})">
+      <span class="drag-handle" title="拖动排序"
+        onmousedown="onSecHandleMousedown(event,${si})"
+        ontouchstart="onSecHandleMousedown(event,${si})">⠿</span>
       <span class="sec-name">${esc(sec.section)}</span>
       <span class="sec-count">${sec.items.length}</span>
     </div>`).join('');
 }
-function selectSection(si){currentSec=si;renderSidebar();renderSection(si);showPanel('links');if(window.innerWidth<=768)closeMobSidebar();}
-function dropSec(e,ti){
-  e.preventDefault();
-  document.querySelectorAll('.sec-item').forEach(el=>el.classList.remove('sec-drag-over'));
-  if(dragSecSrc===null||dragSecSrc===ti)return;
-  const[m]=linksData.splice(dragSecSrc,1);linksData.splice(ti,0,m);
-  currentSec=ti;dragSecSrc=null;setDirty();renderSidebar();renderSection(currentSec);
+
+function selectSection(si){
+  currentSec=si;renderSidebar();renderSection(si);showPanel('links');
+  if(window.innerWidth<=768)closeMobSidebar();
 }
 
+// 分类 handle 按下 → 激活该 sec-item 的 draggable
+function onSecHandleMousedown(e,si){
+  e.stopPropagation();
+  const item=document.querySelector(`.sec-item[data-si="${si}"]`);
+  if(!item)return;
+  item.draggable=true;
+  dragSecSrc=si;
+  item.style.opacity='.4';
+
+  const cleanup=()=>{
+    item.draggable=false;
+    item.style.opacity='';
+    document.removeEventListener('dragend',cleanup);
+  };
+  document.addEventListener('dragend',cleanup);
+
+  // 同步触发浏览器 drag（需要在 mousedown 同帧内让元素 draggable=true）
+  // 浏览器会在下一帧自动捕捉 dragstart；这里不需要手动 dispatchEvent
+}
+
+function onSecItemDragOver(e,ti){
+  if(dragSecSrc===null)return;   // 只处理分类排序，行拖动走行的逻辑
+  if(dragRowSrc!==null)return;   // 行拖动时不响应分类排序
+  e.preventDefault();
+  document.querySelectorAll('.sec-item').forEach(el=>el.classList.remove('sec-drag-over'));
+  document.querySelector(`.sec-item[data-si="${ti}"]`)?.classList.add('sec-drag-over');
+}
+function onSecItemDragLeave(e,ti){
+  document.querySelector(`.sec-item[data-si="${ti}"]`)?.classList.remove('sec-drag-over');
+}
+function onSecItemDrop(e,ti){
+  e.preventDefault();
+  document.querySelectorAll('.sec-item').forEach(el=>el.classList.remove('sec-drag-over','sec-hover-enter'));
+  if(dragSecSrc===null||dragSecSrc===ti)return;
+  const[m]=linksData.splice(dragSecSrc,1);
+  linksData.splice(ti,0,m);
+  currentSec=ti;dragSecSrc=null;
+  setDirty();renderSidebar();renderSection(currentSec);
+}
+
+// ════════════════════════════════════════════
+//  行渲染
+// ════════════════════════════════════════════
 function renderSection(si){
   const panel=document.getElementById('links-content');
   if(!linksData.length){panel.innerHTML='<div class="empty">还没有分类，点击左侧添加</div>';return;}
@@ -593,9 +653,11 @@ function renderSection(si){
         ${sec.items.map((it,ii)=>rowHtml(si,ii,it)).join('')}
       </tbody>
     </table></div>`;
+
+  // 为所有行绑定拖动事件（在 JS 里绑定，避免 draggable 固定为 true）
+  bindRowDrag(si);
 }
 
-// ── FIX 3: 自定义图标 src 加 sha 后缀破缓存 ──
 function iconCellHtml(si,ii,it){
   const domain=getDomain(it.url);
   if(it.icon){
@@ -618,13 +680,15 @@ function iconCellHtml(si,ii,it){
 }
 
 function rowHtml(si,ii,it){
-  return`<tr draggable="true"
-    ondragstart="dragRowSrc={si:${si},ii:${ii}};event.dataTransfer.effectAllowed='move';this.style.opacity='.4'"
-    ondragover="event.preventDefault();document.querySelectorAll('.drag-row-over').forEach(x=>x.classList.remove('drag-row-over'));this.classList.add('drag-row-over')"
-    ondragleave="this.classList.remove('drag-row-over')"
-    ondrop="dropRow(event,${si},${ii})"
-    ondragend="this.style.opacity='';document.querySelectorAll('.drag-row-over').forEach(x=>x.classList.remove('drag-row-over'))">
-    <td><span class="drag-handle">⠿</span></td>
+  // draggable 不写在 HTML 里，由 JS 的 handle mousedown 控制
+  return`<tr data-si="${si}" data-ii="${ii}"
+    ondragover="onRowDragOver(event,${si},${ii})"
+    ondragleave="onRowDragLeave(event)"
+    ondrop="onRowDrop(event,${si},${ii})"
+    ondragend="onRowDragEnd(event)">
+    <td><span class="drag-handle" title="只能通过此处拖动"
+      onmousedown="onRowHandleMousedown(event,${si},${ii})"
+      ontouchstart="onRowHandleMousedown(event,${si},${ii})">⠿</span></td>
     <td style="text-align:center">${iconCellHtml(si,ii,it)}</td>
     <td><input type="text" value="${esc(it.title)}" placeholder="名称" onchange="upd(${si},${ii},'title',this.value)"></td>
     <td><input type="url" value="${esc(it.url)}" placeholder="https://" onchange="updUrl(${si},${ii},this.value)"></td>
@@ -635,6 +699,235 @@ function rowHtml(si,ii,it){
   </tr>`;
 }
 
+// ════════════════════════════════════════════
+//  行拖动：只有 ⠿ handle 能激活
+// ════════════════════════════════════════════
+function bindRowDrag(si){
+  // 不需要额外绑定，handle 的 onmousedown 已在 rowHtml 里声明
+}
+
+function onRowHandleMousedown(e,si,ii){
+  e.stopPropagation();
+  const row=e.currentTarget.closest('tr');
+  if(!row)return;
+
+  row.draggable=true;
+  dragRowSrc={si,ii};
+  row.style.opacity='.4';
+
+  // 拖动结束时清理（dragend 在 onRowDragEnd 里处理）
+}
+
+// 插入线：在 tbody 里插入一个特殊行作为视觉提示
+let _dropLineRow=null;
+let _dropLinePos=null; // {si, afterIdx} afterIdx=-1 表示插到最前
+
+function showDropLine(tbodyEl,afterRowIdx,totalRows){
+  removeDropLine();
+  const tr=document.createElement('tr');
+  tr.className='drop-line show';
+  // 占满所有列
+  const td=document.createElement('td');
+  td.colSpan=8;
+  td.style.cssText='padding:0;height:2px;background:linear-gradient(90deg,var(--accent,#3ecf8e),var(--accent-blue,#5b8ef5));border-radius:2px;box-shadow:0 0 6px rgba(62,207,142,0.6);';
+  tr.appendChild(td);
+
+  const rows=tbodyEl.querySelectorAll('tr:not(.drop-line)');
+  if(afterRowIdx>=rows.length-1){
+    tbodyEl.appendChild(tr);
+  } else {
+    const refRow=rows[afterRowIdx+1];
+    tbodyEl.insertBefore(tr,refRow);
+  }
+  _dropLineRow=tr;
+}
+
+function removeDropLine(){
+  if(_dropLineRow){_dropLineRow.remove();_dropLineRow=null;}
+}
+
+function onRowDragOver(e,si,ii){
+  e.preventDefault();
+  e.dataTransfer.dropEffect='move';
+
+  // 判断鼠标在行的上半还是下半
+  const row=e.currentTarget;
+  const rect=row.getBoundingClientRect();
+  const mid=rect.top+rect.height/2;
+  const insertAfter=e.clientY>mid;
+  const targetIdx=insertAfter?ii:ii-1; // 插在 ii 行之后
+
+  _dropLinePos={si,afterIdx:targetIdx};
+
+  const tbody=document.getElementById(`tbody-${si}`);
+  if(tbody) showDropLine(tbody,targetIdx,linksData[si].items.length);
+}
+
+function onRowDragLeave(e){
+  // 不立即移除插入线，避免划过子元素时闪烁
+  // 在 dragover 下一帧会更新或在 dragend 清理
+}
+
+function onRowDrop(e,si,ii){
+  e.preventDefault();
+  removeDropLine();
+
+  if(!dragRowSrc)return;
+
+  const srcSi=dragRowSrc.si;
+  const srcIi=dragRowSrc.ii;
+
+  // 判断插入位置
+  const row=e.currentTarget;
+  const rect=row.getBoundingClientRect();
+  const insertAfter=e.clientY>rect.top+rect.height/2;
+  let targetIdx=insertAfter?ii:ii-1;
+
+  // 同分类内移动
+  if(srcSi===si){
+    if(srcIi===ii||(insertAfter&&srcIi===ii)||(srcIi===targetIdx+1)){}
+    else{
+      const items=linksData[si].items;
+      const[m]=items.splice(srcIi,1);
+      // 调整目标索引（因为 splice 已经移走了一个元素）
+      let insertAt=insertAfter?ii:ii;
+      if(srcIi<ii) insertAt=insertAfter?ii-1:ii-1;
+      else insertAt=insertAfter?ii+1:ii;
+      // 简化：直接用 targetIdx
+      let at=targetIdx+1;
+      if(srcIi<at) at--;
+      items.splice(Math.max(0,at),0,m);
+      setDirty();renderSection(si);
+    }
+  } else {
+    // 跨分类移动
+    const[m]=linksData[srcSi].items.splice(srcIi,1);
+    let at=targetIdx+1;
+    if(at<0)at=0;
+    linksData[si].items.splice(at,0,m);
+    setDirty();
+    // 切换到目标分类
+    currentSec=si;
+    renderSidebar();
+    renderSection(si);
+    toast(`已移动到「${linksData[si].section}」`);
+  }
+
+  dragRowSrc=null;
+  _dropLinePos=null;
+  _crossSecTarget=null;
+  clearSecHoverTimer();
+  clearAllSecHover();
+}
+
+function onRowDragEnd(e){
+  removeDropLine();
+  const row=e.currentTarget;
+  if(row){row.draggable=false;row.style.opacity='';}
+  // 清理所有高亮
+  clearAllSecHover();
+  clearSecHoverTimer();
+  dragRowSrc=null;
+  _dropLinePos=null;
+  _crossSecTarget=null;
+}
+
+// ════════════════════════════════════════════
+//  跨分类：侧边栏分类悬停切换
+// ════════════════════════════════════════════
+// 在 sidebar 的 sec-item 上监听行拖动时的 dragover
+
+function initSidebarCrossSecDrag(){
+  const secList=document.getElementById('sec-list');
+  secList.addEventListener('dragover',onSidebarDragOver);
+  secList.addEventListener('dragleave',onSidebarDragLeave);
+  secList.addEventListener('drop',onSidebarDrop);
+}
+
+function onSidebarDragOver(e){
+  if(!dragRowSrc)return; // 只在行拖动时响应
+  e.preventDefault();
+  e.dataTransfer.dropEffect='move';
+
+  const item=e.target.closest('.sec-item');
+  if(!item)return;
+  const si=parseInt(item.dataset.si);
+  if(isNaN(si))return;
+
+  if(_crossSecTarget!==si){
+    _crossSecTarget=si;
+    clearSecHoverTimer();
+    // 高亮悬停目标
+    clearAllSecHover();
+    item.classList.add('sec-hover-enter');
+
+    // 300ms 后自动切换到该分类
+    _secHoverTimer=setTimeout(()=>{
+      if(_crossSecTarget===si&&dragRowSrc){
+        currentSec=si;
+        renderSidebar();
+        renderSection(si);
+        // 重新绑定悬停高亮（renderSidebar 会重建 DOM）
+        const newItem=document.querySelector(`.sec-item[data-si="${si}"]`);
+        if(newItem) newItem.classList.add('sec-hover-enter');
+      }
+    },300);
+  }
+}
+
+function onSidebarDragLeave(e){
+  const item=e.target.closest('.sec-item');
+  if(!item)return;
+  // 判断是否真的离开了这个 item（而非进入了子元素）
+  const related=e.relatedTarget;
+  if(related&&item.contains(related))return;
+  const si=parseInt(item.dataset.si);
+  if(_crossSecTarget===si){
+    _crossSecTarget=null;
+    clearSecHoverTimer();
+    item.classList.remove('sec-hover-enter');
+  }
+}
+
+function onSidebarDrop(e){
+  if(!dragRowSrc)return;
+  e.preventDefault();
+  // 放到分类上（没有精确行）→ 追加到末尾
+  const item=e.target.closest('.sec-item');
+  if(!item)return;
+  const si=parseInt(item.dataset.si);
+  if(isNaN(si))return;
+
+  const srcSi=dragRowSrc.si;
+  const srcIi=dragRowSrc.ii;
+
+  if(srcSi===si)return; // 同分类直接松手，走行的 drop
+
+  const[m]=linksData[srcSi].items.splice(srcIi,1);
+  linksData[si].items.push(m);
+  setDirty();
+  currentSec=si;
+  renderSidebar();
+  renderSection(si);
+  toast(`已移动到「${linksData[si].section}」末尾`);
+
+  dragRowSrc=null;
+  clearAllSecHover();
+  clearSecHoverTimer();
+  removeDropLine();
+}
+
+function clearSecHoverTimer(){
+  if(_secHoverTimer){clearTimeout(_secHoverTimer);_secHoverTimer=null;}
+}
+function clearAllSecHover(){
+  document.querySelectorAll('.sec-hover-enter').forEach(el=>el.classList.remove('sec-hover-enter'));
+  document.querySelectorAll('.sec-drag-over').forEach(el=>el.classList.remove('sec-drag-over'));
+}
+
+// ════════════════════════════════════════════
+//  其余原有逻辑（未改动）
+// ════════════════════════════════════════════
 function upd(si,ii,k,v){linksData[si].items[ii][k]=v;setDirty();}
 function updUrl(si,ii,v){
   linksData[si].items[ii].url=v;setDirty();
@@ -662,14 +955,6 @@ function addSection(){
 function deleteSection(si){
   if(!confirm(`确定删除「${linksData[si].section}」？`))return;
   linksData.splice(si,1);currentSec=Math.max(0,si-1);setDirty();renderSidebar();renderSection(currentSec);
-}
-function dropRow(e,si,ti){
-  e.preventDefault();
-  if(!dragRowSrc||dragRowSrc.si!==si||dragRowSrc.ii===ti)return;
-  const items=linksData[si].items;
-  const[m]=items.splice(dragRowSrc.ii,1);
-  items.splice(dragRowSrc.ii<ti?ti-1:ti,0,m);
-  dragRowSrc=null;setDirty();renderSection(si);
 }
 
 function openIPPanel(si,ii,cellEl){
@@ -773,7 +1058,6 @@ function renderPickTab(filter=''){
   renderIconGrid(body,filtered,filter);
 }
 
-// ── FIX 2: 弹窗 pick tab 图标 src 加 sha 破缓存 ──
 function renderIconGrid(body,filtered,filter){
   const container=body.querySelector('#icon-grid-container')||body.querySelector('.icon-grid-scroll')?.parentNode;
   const html=!iconsData.length
@@ -824,13 +1108,11 @@ async function doSingleIconUpload(file){
     await loadIcons();
     renderIconsGrid();
     pickerPendingIcon=ICONS_PREFIX+file.name;
-toast('✅ 上传成功，已自动选中');
-switchITab('pick');
-// 新图标固定排在列表末尾（iconsData.push），自动跳转后默认在不可见区域，
-// 需要手动滚动到选中项才能让用户立即看到刚才传的是哪个图标。
-requestAnimationFrame(()=>{
-  document.querySelector('.icon-opt.sel')?.scrollIntoView({block:'center',behavior:'smooth'});
-});
+    toast('✅ 上传成功，已自动选中');
+    switchITab('pick');
+    requestAnimationFrame(()=>{
+      document.querySelector('.icon-opt.sel')?.scrollIntoView({block:'center',behavior:'smooth'});
+    });
   }catch(err){
     toast('上传失败：'+err.message,'err');
     prog.style.display='none';
@@ -857,7 +1139,6 @@ async function deleteIcon(name, sha){
   if(!confirm(`确定删除图标「${name}」？\n（已使用该图标的链接将回退到自动获取）`)) return;
   try{
     await delFile(`${ICONS_DIR}/${name}`, sha, `delete icon: ${name}`);
-    // 清理 linksData 中所有引用该图标的条目，回退到自动获取
     let affected = 0;
     linksData.forEach(sec => sec.items.forEach(it => {
       if(it.icon && it.icon.replace(/^.*\/([^/]+)$/,'$1') === name){
@@ -873,7 +1154,6 @@ async function deleteIcon(name, sha){
   }
 }
 
-// ── FIX 1: 图标管理页 img src 加 sha 破缓存 ──
 function renderIconsGrid(){
   const g=document.getElementById('icons-grid');
   if(!g)return;
@@ -964,6 +1244,12 @@ function closeMobSidebar(){
 }
 
 window.addEventListener('beforeunload',e=>{if(isDirty){e.preventDefault();e.returnValue='';}});
+
+// 初始化跨分类拖动监听（sidebar 建好后）
+document.addEventListener('DOMContentLoaded',()=>{
+  initSidebarCrossSecDrag();
+});
+
 loadSaved();
 showPanel('links');
 </script>
