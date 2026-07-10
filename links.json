@@ -53,7 +53,7 @@
       },
       {
         "title": "Dpanel",
-        "url": "https://10.10.10.0:8086/dpanel/ui/user/login",
+        "url": "http://10.10.10.0:8086/dpanel/ui/user/login",
         "desc": "docker面板",
         "icon": "icons/logos/1689.png",
         "intranet": "http://nas.20130612.xyz:8086/dpanel/ui/user/login"
