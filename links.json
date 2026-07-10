@@ -69,7 +69,26 @@
   },
   {
     "section": "网络相关",
-    "items": []
+    "items": [
+      {
+        "title": "github",
+        "url": "https://github.com/dashboard",
+        "desc": "代码开源",
+        "intranet": "https://github.com/dashboard"
+      },
+      {
+        "title": "Cloudflare",
+        "url": "https://dash.cloudflare.com/f99e5c58f63adec0f40e25bc88be9f7d/home",
+        "desc": "国外云服务",
+        "intranet": "https://dash.cloudflare.com/f99e5c58f63adec0f40e25bc88be9f7d/home"
+      },
+      {
+        "title": "阿里云",
+        "url": "https://www.aliyun.com/benefit?utm_content=se_1023481627",
+        "desc": "国内云服务",
+        "intranet": "https://www.aliyun.com/benefit?utm_content=se_1023481627"
+      }
+    ]
   },
   {
     "section": "影视在线",
