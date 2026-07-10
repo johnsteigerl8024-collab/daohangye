@@ -45,13 +45,6 @@
         "url": "https://chatgpt.com/",
         "desc": "OpenAI AI助手",
         "data-desc": "OpenAI 旗下 AI 对话助手，GPT-4，强大通用大模型"
-      },
-      {
-        "title": "王五主页",
-        "url": "https://wwzy.ccwu.cc/jianjie",
-        "desc": "个人主页",
-        "data-desc": "王五的个人主页",
-        "icon": "icons/logos/favicon.png"
       }
     ]
   },
