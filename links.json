@@ -73,7 +73,7 @@
       {
         "title": "github",
         "url": "https://github.com/dashboard",
-        "desc": "代码开源",
+        "desc": "开源代码",
         "intranet": "https://github.com/dashboard"
       },
       {
@@ -99,6 +99,12 @@
         "url": "https://test-ipv6.csclub.uwaterloo.ca/",
         "desc": "ipv6检测",
         "intranet": "https://test-ipv6.csclub.uwaterloo.ca/"
+      },
+      {
+        "title": "魔界",
+        "url": "http://mojie.host",
+        "desc": "vpn翻墙",
+        "intranet": "http://mojie.host"
       }
     ]
   },
