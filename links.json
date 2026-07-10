@@ -105,6 +105,12 @@
         "url": "http://mojie.host",
         "desc": "vpn翻墙",
         "intranet": "http://mojie.host"
+      },
+      {
+        "title": "文件管理",
+        "url": "https://buzzheavier.com/fs",
+        "desc": "文件托管",
+        "intranet": "https://buzzheavier.com/fs"
       }
     ]
   },
