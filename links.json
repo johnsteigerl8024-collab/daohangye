@@ -7,7 +7,7 @@
         "url": "https://asus.20130612.xyz:8443",
         "desc": "路由器",
         "icon": "icons/logos/1666.jpg",
-        "intranet": "https://192.168.2.1:8843"
+        "intranet": "http://192.168.2.1:8842"
       },
       {
         "title": "asus-openlist",
