@@ -5,16 +5,9 @@
       {
         "title": "ax68u",
         "url": "https://asus.20130612.xyz:8443",
-        "desc": "主路由器",
+        "desc": "路由器",
         "icon": "icons/logos/1666.jpg",
         "intranet": "https://192.168.2.1:8843"
-      },
-      {
-        "title": "ax58u",
-        "url": "https://asus.20130612.xyz:2000",
-        "desc": "副路由器",
-        "icon": "icons/logos/1669.jpg",
-        "intranet": "https://192.168.2.2:8443"
       },
       {
         "title": "asus-openlist",
@@ -128,16 +121,9 @@
       {
         "title": "ax68u",
         "url": "https://10.10.10.0:19831",
-        "desc": "主路由器",
+        "desc": "路由器",
         "icon": "icons/logos/1666.jpg",
         "intranet": "https://10.10.10.0:19831"
-      },
-      {
-        "title": "ax58u",
-        "url": "https://10.10.10.0:19835",
-        "desc": "副路由器",
-        "icon": "icons/logos/1669.jpg",
-        "intranet": "https://10.10.10.0:19835"
       },
       {
         "title": "asus-openlist",
