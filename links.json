@@ -119,13 +119,6 @@
         "intranet": "https://10.10.10.0:19831"
       },
       {
-        "title": "asus-openlist",
-        "url": "https://10.10.10.0:19832",
-        "desc": "asus共享网盘",
-        "icon": "icons/logos/1667.png",
-        "intranet": "https://10.10.10.0:19832"
-      },
-      {
         "title": "asus-lucky",
         "url": "https://10.10.10.0:19833",
         "desc": "asus域名解析",
