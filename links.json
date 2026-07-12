@@ -10,13 +10,6 @@
         "intranet": "https://192.168.2.1:8334"
       },
       {
-        "title": "asus-openlist",
-        "url": "https://asus.20130612.xyz:5245",
-        "desc": "asus共享网盘",
-        "icon": "icons/logos/1667.png",
-        "intranet": "https://192.168.2.1:5245"
-      },
-      {
         "title": "asus-lucky",
         "url": "https://asus.20130612.xyz:16601",
         "desc": "asus域名解析",
