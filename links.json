@@ -46,16 +46,10 @@
       },
       {
         "title": "asus",
-        "url": "https://asus.20130612.xyz:8443",
+        "url": "https://asus.20130612.xyz:8130",
         "desc": "路由器",
         "icon": "icons/logos/1669.jpg",
-        "intranet": "https://192.168.2.1:8443"
-      },
-      {
-        "title": "sdgg",
-        "url": "http://nas.20130612.xyz:8086/dpanel/ui/user/login",
-        "desc": "gghj",
-        "intranet": "http://nas.20130612.xyz:8086/dpanel/ui/user/login"
+        "intranet": "https://192.168.2.1:8130"
       }
     ]
   },
