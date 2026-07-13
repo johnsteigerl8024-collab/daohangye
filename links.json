@@ -113,50 +113,45 @@
     "items": [
       {
         "title": "asus-lucky",
-        "url": "",
+        "url": "https://10.10.10.0:16601",
         "desc": "asus域名解析",
         "icon": "icons/logos/1668.png",
         "intranet": "https://10.10.10.0:16601"
       },
       {
         "title": "nas",
-        "url": "",
+        "url": "https://10.10.10.1:5001",
         "desc": "nas",
         "icon": "icons/logos/1688.jpg",
         "intranet": "https://10.10.10.1:5001"
       },
       {
         "title": "nas-oplist",
-        "url": "",
+        "url": "http://10.10.10.1:5255",
         "desc": "nas共享网盘",
         "icon": "icons/logos/1667.png",
         "intranet": "http://10.10.10.1:5255"
       },
       {
         "title": "nas-lucky",
-        "url": "",
+        "url": "https://10.10.10.1:16601",
         "desc": "nas域名解析",
         "icon": "icons/logos/1668.png",
         "intranet": "https://10.10.10.1:16601"
       },
       {
         "title": "Dpanel",
-        "url": "",
+        "url": "http://10.10.10.1:8086/dpanel/ui/user/login",
         "desc": "docker面板",
         "icon": "icons/logos/1689.png",
         "intranet": "http://10.10.10.1:8086/dpanel/ui/user/login"
       },
       {
         "title": "m3u8",
-        "url": "",
+        "url": "http://10.10.10.1:5050",
         "desc": "视频下载器",
         "icon": "icons/logos/1690.png",
         "intranet": "http://10.10.10.1:5050"
-      },
-      {
-        "title": "fgh",
-        "url": "ghjj",
-        "desc": "jk"
       }
     ]
   }
