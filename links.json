@@ -113,17 +113,17 @@
     "items": [
       {
         "title": "ax68u",
-        "url": "https://10.10.10.3:19831",
+        "url": "https://10.10.10.3:8334",
         "desc": "路由器",
         "icon": "icons/logos/1666.jpg",
-        "intranet": "https://10.10.10.3:19831"
+        "intranet": "https://10.10.10.3:8334"
       },
       {
         "title": "asus-lucky",
-        "url": "https://10.10.10.3:19833",
+        "url": "https://10.10.10.3:16601",
         "desc": "asus域名解析",
         "icon": "icons/logos/1668.png",
-        "intranet": "https://10.10.10.3:19833"
+        "intranet": "https://10.10.10.3:16601"
       },
       {
         "title": "nas",
