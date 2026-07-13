@@ -113,10 +113,10 @@
     "items": [
       {
         "title": "asus-lucky",
-        "url": "https://10.10.10.0:16601",
+        "url": "https://10.10.10.1:16602",
         "desc": "asus域名解析",
         "icon": "icons/logos/1668.png",
-        "intranet": "https://10.10.10.0:16601"
+        "intranet": "https://10.10.10.1:16602"
       },
       {
         "title": "nas",
