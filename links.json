@@ -152,6 +152,11 @@
         "desc": "视频下载器",
         "icon": "icons/logos/1690.png",
         "intranet": "http://10.10.10.1:5050"
+      },
+      {
+        "title": "fgh",
+        "url": "ghjj",
+        "desc": "jk"
       }
     ]
   }
