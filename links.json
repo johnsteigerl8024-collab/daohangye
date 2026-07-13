@@ -113,10 +113,10 @@
     "items": [
       {
         "title": "ax68u",
-        "url": "https://10.10.10.0:8334",
+        "url": "https://10.10.10.0:8443",
         "desc": "路由器",
         "icon": "icons/logos/1666.jpg",
-        "intranet": "https://10.10.10.0:8334"
+        "intranet": "https://10.10.10.0:8443"
       },
       {
         "title": "asus-lucky",
