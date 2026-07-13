@@ -43,13 +43,6 @@
         "desc": "视频下载器",
         "icon": "icons/logos/1690.png",
         "intranet": "http://192.168.1.3:5050"
-      },
-      {
-        "title": "ax68u",
-        "url": "http://nas.20130612.xyz:5050",
-        "desc": "路由器",
-        "icon": "icons/logos/1666.jpg",
-        "intranet": "https://192.168.2.1:8443"
       }
     ]
   },
