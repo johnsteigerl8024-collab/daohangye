@@ -106,6 +106,28 @@
   },
   {
     "section": "其它",
-    "items": []
+    "items": [
+      {
+        "title": "crx",
+        "url": "https://www.crxsoso.com/search?keyword=vpn&store=chrome",
+        "desc": "",
+        "data-desc": "插件搜索",
+        "intranet": "https://www.crxsoso.com/search?keyword=vpn&store=chrome"
+      },
+      {
+        "title": "edge",
+        "url": "https://microsoftedge.microsoft.com/addons/Microsoft-Edge-Extensions-Home",
+        "desc": "",
+        "data-desc": "微软插件",
+        "intranet": "https://microsoftedge.microsoft.com/addons/Microsoft-Edge-Extensions-Home"
+      },
+      {
+        "title": "google",
+        "url": "https://chromewebstore.google.com/category/extensions?hl=zh",
+        "desc": "",
+        "data-desc": "谷歌插件",
+        "intranet": "https://chromewebstore.google.com/category/extensions?hl=zh"
+      }
+    ]
   }
 ]
