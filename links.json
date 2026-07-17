@@ -102,7 +102,20 @@
   },
   {
     "section": "影视",
-    "items": []
+    "items": [
+      {
+        "title": "YouTube",
+        "url": "https://m.youtube.com/",
+        "desc": "油管",
+        "intranet": "https://m.youtube.com/"
+      },
+      {
+        "title": "麻花影视",
+        "url": "https://www.zssypx.com/",
+        "desc": "影视下载",
+        "intranet": "https://www.zssypx.com/"
+      }
+    ]
   },
   {
     "section": "其它",
