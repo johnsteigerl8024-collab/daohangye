@@ -142,24 +142,28 @@
         "title": "crx",
         "url": "https://www.crxsoso.com/search?keyword=vpn&store=chrome",
         "desc": "插件搜索",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://www.crxsoso.com/search?keyword=vpn&store=chrome"
       },
       {
         "title": "edge",
         "url": "https://microsoftedge.microsoft.com/addons/Microsoft-Edge-Extensions-Home",
         "desc": "微软插件",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://microsoftedge.microsoft.com/addons/Microsoft-Edge-Extensions-Home"
       },
       {
         "title": "google",
         "url": "https://chromewebstore.google.com/category/extensions?hl=zh",
         "desc": "谷歌插件",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://chromewebstore.google.com/category/extensions?hl=zh"
       },
       {
         "title": "酷友社",
         "url": "https://www.koolcenter.com/",
         "desc": "路由器固件",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://www.koolcenter.com/"
       }
     ]
