@@ -60,43 +60,43 @@
         "title": "github",
         "url": "https://github.com/dashboard",
         "desc": "开源代码",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://github.com/dashboard"
       },
       {
         "title": "Cloudflare",
         "url": "https://dash.cloudflare.com/f99e5c58f63adec0f40e25bc88be9f7d/home",
         "desc": "国外云服务",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://dash.cloudflare.com/f99e5c58f63adec0f40e25bc88be9f7d/home"
       },
       {
         "title": "阿里云",
         "url": "https://www.aliyun.com/benefit?utm_content=se_1023481627",
         "desc": "国内云服务",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://www.aliyun.com/benefit?utm_content=se_1023481627"
       },
       {
         "title": "NAT Checker",
         "url": "https://natchecker.com/zh",
         "desc": "nat检测",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://natchecker.com/zh"
       },
       {
         "title": "ipv6",
         "url": "https://test-ipv6.csclub.uwaterloo.ca/",
         "desc": "ipv6检测",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://test-ipv6.csclub.uwaterloo.ca/"
       },
       {
         "title": "魔界",
         "url": "http://mojie.host",
         "desc": "vpn翻墙",
+        "icon": "icons/logos/2269.png",
         "intranet": "http://mojie.host"
-      },
-      {
-        "title": "文件管理",
-        "url": "https://buzzheavier.com/fs",
-        "desc": "文件托管",
-        "intranet": "https://buzzheavier.com/fs"
       }
     ]
   },
