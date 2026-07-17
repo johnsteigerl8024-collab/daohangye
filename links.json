@@ -107,30 +107,35 @@
         "title": "YouTube",
         "url": "https://m.youtube.com/",
         "desc": "油管",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://m.youtube.com/"
       },
       {
         "title": "麻花影视",
         "url": "https://www.zssypx.com/",
         "desc": "影视下载",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://www.zssypx.com/"
       },
       {
         "title": "豌豆影视",
         "url": "https://s2ykfzb.cn/",
         "desc": "影视下载",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://s2ykfzb.cn/"
       },
       {
         "title": "天狼影院",
         "url": "https://v.tlyy123.com/",
         "desc": "影视下载",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://v.tlyy123.com/"
       },
       {
         "title": "刻度影视",
         "url": "https://www.qtmturi.com/",
         "desc": "影视下载",
+        "icon": "icons/logos/2269.png",
         "intranet": "https://www.qtmturi.com/"
       }
     ]
